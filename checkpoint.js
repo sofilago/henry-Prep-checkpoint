@@ -6,7 +6,16 @@ function menorMayor(numeros) {
   // que contenga el menor número del arreglo en la posición cero y el mayor número del arreglo en la posición 1.
   // Ej: menorMayor([4, 6, 1, 7, 15]) // retorna [1, 15]
 
+  var arr = [];
+  arr [0] = numeros.reduce(function(a, b) { 
+   return Math.min (a, b); 
+  });
+  arr [1] = numeros.reduce(function(a, b) { 
+    return Math.max (a, b); 
+   });
+   return arr;
 }
+
 
 function stringMasLarga(strings) {
   // Escribe una función llamada stringMasLarga, que tome un arreglo de strings llamado 'strings'
@@ -15,7 +24,12 @@ function stringMasLarga(strings) {
   // stringMasLarga(['hi', 'hello', 'ni hao', 'guten tag']); // returns 'guten tag'
   // stringMasLarga(['JavaScript', 'HTML', 'CSS']); // returns 'JavaScript'
 
-}
+  var largest = '';  
+  strings.forEach(function(string) {
+  if (string.length > largest.length) 
+  largest = string });
+  return largest;
+} 
 
 function buscarAmigo(amigos, nombre) {
   // Escribe una funcion que reciba un array de amigos (objetos) y un nombre (string).
@@ -25,6 +39,12 @@ function buscarAmigo(amigos, nombre) {
   //  var amigos = [{ nombre: 'toni', edad: 33 } , { nombre: 'Emi', edad: 25 }];
   //  buscarAmigo(amigos, 'toni') // retorna { nombre: 'toni', edad: 33 };
   
+  var elAmigo = amigos[0];
+  amigos.forEach (function (amigo){
+  if (amigo.nombre == nombre)
+   elAmigo = amigo;  
+  });
+  return elAmigo;
 }
 
 function sumArray(array, n) {
@@ -36,6 +56,15 @@ function sumArray(array, n) {
   // sumArray([2,5,7,10,11,15,20], 14)  // retorna false
   // pista: podes usar bucles anidados;
   
+  var salida = false;
+  array.forEach(function(i){
+    array.forEach(function(j){
+      if(i != j)
+        if(n == i+j)
+          salida = true;
+    });
+  });  
+  return salida;
 };
 
 function pluck(array, propiedad) { 
@@ -47,7 +76,9 @@ function pluck(array, propiedad) {
   // productos.pluck(productos, 'name') // ['TV LCD', 'Computadora']
   // pista: es una buena oportunidad para usar map.
   
-  
+  return array.map(function(elemento) {
+    return elemento[propiedad];
+});
 }
 
 // =======================================================================
@@ -61,27 +92,45 @@ function crearClasePersona() {
 
   class Persona {
     constructor(nombre, edad, hobbies, amigos) {
-      
+      this.nombre = nombre;
+      this.edad = edad;
+      this.hobbies = hobbies;
+      this.amigos = amigos;
+        return this;
     }
+    
 
     addFriend(nombre, edad) {
       // el metodo addFriend recibe un string nombre y un entero edad y debe agregar un objeto:
       // { nombre: nombre, edad: edad} al arreglo de amigos de la persona.
       // no debe retornar nada.
-      
+
+      var obj = {};
+        obj.nombre = nombre;
+        obj.edad = edad;    
+      this.amigos.push(obj);
     }
 
     addHobby(hobby) {
       // este método debe agregar un hobby (hobby) al arreglo de hobbies de la persona.
       // no debe retornar nada.
       
+    this.hobbies.push(hobby);
+  
     }
+
     getFriends() {
       // Escribe una función que retorne un arreglo con sólo los nombres del arreglo de amigos
       // de la persona.
       // Ej:
       // persona.getFriends() // retorna ['toni', 'Leo', 'Manu']
       
+      //var arr = this.amigos.values();
+      //return arr;  
+
+      return this.amigos.map(function(amigo){
+        return amigo.nombre;
+      });
     }
 
     getHobbies() {
@@ -89,6 +138,9 @@ function crearClasePersona() {
       // Ej:
       // persona.getHobbies() // retorna ['correr', 'dormir', 'nadar']
       
+      return this.hobbies.map(function(hobby){
+        return hobby;
+      });
     }
 
     getPromedioEdad() {
@@ -104,6 +156,15 @@ function crearClasePersona() {
       //   }]
       // }
       // persona.getPromedioEdad() // retorna 29
+
+      if (this.amigos.length == 0)
+      return 0;
+
+      var total = 0; 
+        this.amigos.forEach(function(amigo){
+          total = total + amigo.edad; 
+        });
+        return total/this.amigos.length; 
     }
   };
 
@@ -135,6 +196,7 @@ function filtrar(funcion) {
   // productos.filtrar(function(p) {
   //   return p.price >= 50;
   // }) => [{price: 100, name:'tv'}]
+ 
 
 };
 
